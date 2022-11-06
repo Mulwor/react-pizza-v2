@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 function PizzaBlock({ title, price }) {
-  // Из пропса мы хотим вытащить тайтл и прайс, удаляем пропсы заменяем на title, props
   const [pizzaCount, setPizzaCount] = useState(0);
+  // const [pizzaCount, setPizzaCount] = React.useState(0);
 
   const onClickHandler = () => {
-    setPizzaCount(pizzaCount + 1)
+    setPizzaCount(pizzaCount + 1);
   };
 
   return (
@@ -29,9 +29,7 @@ function PizzaBlock({ title, price }) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button 
-          onClick = { onClickHandler }
-          className="button button--outline button--add">
+        <button onClick={onClickHandler} className="button button--outline button--add">
           <svg
             width="12"
             height="12"
