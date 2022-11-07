@@ -17,9 +17,7 @@ function App() {
           <div className="content__top">
             
             <Categories />
-            {/* Еще один способ вызванить функцию это: 
-                    {Categories()} 
-            */}
+            {/* Еще один способ вызванить функцию это: {Categories()} */}
            
            <Sort />
 
@@ -27,13 +25,13 @@ function App() {
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
              {pizzas.map((object)=> (
-                <PizzaBlock
-                    title = {object.title}
-                    price = {object.price}
-                    imageUrl = {object.imageUrl}
-                    sizes = {object.sizes}
-                    types = {object.types}
-                />
+                <PizzaBlock {...object}/>
+                  /* Если совпадает все то можно сокрактить просто до object
+                      <PizzaBlock
+                        title = {object.title} price = {object.price} imageUrl = {object.imageUrl}
+                        sizes = {object.sizes} types = {object.types}
+                      />
+                  */
              ))}
           </div>
         </div>
