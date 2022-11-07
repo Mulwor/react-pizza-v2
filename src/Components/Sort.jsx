@@ -1,4 +1,19 @@
+import React from 'react';
+
 export function Sort() {
+  const [open, setOpen] = React.useState(false);
+  
+  // Отвечает за выбронную сортировку: популярности
+  const [selected, setSelected] = React.useState(0);
+  const list = ['популярности', 'цене', 'алфавиту'];
+  const sortName = list[selected];
+
+  const onClickListItem = (index) => {
+    // Выбери какой-то пункт и далее закрой поппам
+    setSelected(index);
+    setOpen(false);
+  };
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -14,15 +29,34 @@ export function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setOpen(!open)}>{sortName}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {open && (
+        <div className="sort__popup">
+          <ul>
+            {list.map((name, index) => (
+              <li
+                key={index}
+                onClick={() => onClickListItem(index)}
+                className={selected === index ? 'active' : ''}>
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
+        /*  {open ? (
+               <div className="sort__popup">
+                  <ul>
+                    <li className="active">популярности</li>
+                    <li>цене</li>
+                    <li>алфавиту</li>
+                  </ul>
+               </div> 
+              ) : (
+                "Попап скрыт: "
+            )}
+        */
+      )}
     </div>
   );
 }

@@ -20,8 +20,12 @@ function Categories() {
     <div className="categories">
       <ul>
         {choiceCategory.map((value, index) => (
-          <li onClick = {() => onClickCategory(index)}
-               className = {activeIndex === index ? "active" : ""}
+          <li 
+            // Если твой массив не меняется передавай ки, еслион меняется, 
+            // то не передавай
+            key = {index}
+            onClick = {() => onClickCategory(index)}
+            className = {activeIndex === index ? "active" : ""}
           > {value} </li>
         ))}
       </ul>
