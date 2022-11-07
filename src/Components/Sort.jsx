@@ -8,8 +8,7 @@ export function Sort() {
   const list = ['популярности', 'цене', 'алфавиту'];
   const sortName = list[selected];
 
-  const onClickListItem = (index) => {
-    // Выбери какой-то пункт и далее закрой поппам
+  const onClickListAfterClose = (index) => {
     setSelected(index);
     setOpen(false);
   };
@@ -37,7 +36,7 @@ export function Sort() {
             {list.map((name, index) => (
               <li
                 key={index}
-                onClick={() => onClickListItem(index)}
+                onClick={() => onClickListAfterClose(index)}
                 className={selected === index ? 'active' : ''}>
                 {name}
               </li>
