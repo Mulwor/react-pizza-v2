@@ -5,8 +5,21 @@ import { Sort } from './Components/Sort';
 import PizzaBlock from './Components/PizzaBlock';
 import './scss/app.scss';
 import pizzas from './assets/pizza.json';
+import React from 'react';
 
 function App() {
+  const [items, setItems] = React.useState([])
+
+  React.useEffect(() => {
+    fetch('https://634812fbdb76843976b9b35d.mockapi.io/Collections')
+    .then((res) => {
+      return res.json();
+    })
+    .then((arr) => {
+      setItems(arr)
+    });
+  }, [])
+
   return (
     <div className="wrapper">
       <Header />
@@ -20,7 +33,7 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {pizzas.map((object) => (
+            {items.map((object) => (
               <PizzaBlock key={object.id} {...object} />
               /* Если совпадает все то можно сокрактить просто до object
                       <PizzaBlock
