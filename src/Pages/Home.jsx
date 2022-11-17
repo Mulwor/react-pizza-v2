@@ -18,10 +18,11 @@ const Home = () => {
         setItems(arr); // Отрендери пиццы
         setIsLoading(false); // Загрузка завершилась
       });
+      window.scrollTo(0, 0)
   }, []);
 
   return (
-    <>
+    <div clssname = "container">
       <div className="content__top">
         <Categories />
         <Sort />
@@ -32,7 +33,7 @@ const Home = () => {
           ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
           : items.map((object) => <PizzaBlock key={object.id} {...object} />)}
       </div>
-    </>
+    </div>
   );
 };
 
