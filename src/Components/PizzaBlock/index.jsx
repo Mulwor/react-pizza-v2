@@ -21,7 +21,6 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
                 { typeNames[typeID]} 
             </li>
           ))}
-          {/* types.map ( types => <li> {types ? "тонкое" : "традиционное"} </li>) */}
         </ul>
         <ul>
           {sizes.map((size, index) => (

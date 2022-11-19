@@ -8,18 +8,11 @@ import { Sort } from '../Components/Sort';
 const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  // Стейт для категории: Все, вегатерианские, гриль
   const [categoryID, setCategoryID] = React.useState(0);
-  // Cтейт сортировки: по популярности и т.д. При первой загрузке чтобы изначально был выбран по популряности
   const [sortType, setSortType] = React.useState({ name: 'популярности', sortProperty: 'rating' });
 
   React.useEffect(() => {
-    // Если нам необходим скелетон, то:  setIsLoading(true);
-
-    // Их свойства удали минус 
     const sortBy = sortType.sortProperty.replace('-', "");
-    // Если в sortProperty есть минус, то делай сортировку по возрастанию иначе по убыванию
     const order = sortType.sortProperty.includes('-') ? "asc" : "desc";
     const category = categoryID > 0 ? `category=${categoryID}` : '';
     
@@ -28,12 +21,10 @@ const Home = () => {
         return res.json();
       })
       .then((arr) => {
-        setItems(arr); // Отрендери пиццы
-        setIsLoading(false); // Загрузка завершилась
+        setItems(arr); 
+        setIsLoading(false); 
       });
     window.scrollTo(0, 0);
-
-    // Завивимость: useEffect - следи за categoryID и sortType, если одно из них поменяется то в этом случае делай запрос на бекенд
   }, [categoryID, sortType]);
 
   return (
