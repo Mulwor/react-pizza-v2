@@ -19,7 +19,7 @@ function App() {
         <div className="container">
             <Routes>
               {/* Главная страница */}
-              <Route path='/' element={ <Home/> } />
+              <Route path='/' element={ <Home searchValue={searchValue}/> } />
               <Route path='/cart' element={ <Cart /> } />
               {/* Если не один из роутев не подошел выведи последний */}
               <Route path='*' element={ <NotFound/> } />

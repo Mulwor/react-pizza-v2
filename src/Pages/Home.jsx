@@ -5,7 +5,7 @@ import Skeleton from '../Components/PizzaBlock/Skeleton';
 import Categories from '../Components/Categories';
 import { Sort } from '../Components/Sort';
 
-const Home = () => {
+const Home = ( {searchValue} ) => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryID, setCategoryID] = React.useState(0);
@@ -27,6 +27,19 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [categoryID, sortType]);
 
+  const fakePizza = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+  const objectMap = items.filter(obj => {
+    // Перед тем как отрендарить все пиццы мы возьмем массив всех пиц
+    // отфильтруем их и уже новые объекты, которые отфильтровали
+    // превратим в компоненты пицц
+    if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+      // если в каждом объекте есть что-то, что содержит searchValue, то мы оставляем
+      // это в массиве. Иначе удаляем
+      return true
+    }
+    return false
+  }).map((object) => <PizzaBlock key={object.id} {...object} />)
+  
   return (
     <div className="container">
       <div className="content__top">
@@ -35,9 +48,9 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-          : items.map((object) => <PizzaBlock key={object.id} {...object} />)}
+        
+        {isLoading ? fakePizza : objectMap }
+        
       </div>
     </div>
   );
