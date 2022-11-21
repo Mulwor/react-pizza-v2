@@ -15,8 +15,9 @@ const Home = ( {searchValue} ) => {
     const sortBy = sortType.sortProperty.replace('-', "");
     const order = sortType.sortProperty.includes('-') ? "asc" : "desc";
     const category = categoryID > 0 ? `category=${categoryID}` : '';
+    const search = searchValue > 0 ? `search=${searchValue}` : '';
     
-    fetch(`https://634812fbdb76843976b9b35d.mockapi.io/Collections?${category}&sortBy=${sortBy}&order=${order}`,)
+    fetch(`https://634812fbdb76843976b9b35d.mockapi.io/Collections?${category}&sortBy=${sortBy}&order=${order}${search}`,)
       .then((res) => {
         return res.json();
       })
@@ -25,20 +26,10 @@ const Home = ( {searchValue} ) => {
         setIsLoading(false); 
       });
     window.scrollTo(0, 0);
-  }, [categoryID, sortType]);
+  }, [categoryID, sortType, searchValue]);
 
   const fakePizza = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-  const objectMap = items.filter(obj => {
-    // Перед тем как отрендарить все пиццы мы возьмем массив всех пиц
-    // отфильтруем их и уже новые объекты, которые отфильтровали
-    // превратим в компоненты пицц
-    if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-      // если в каждом объекте есть что-то, что содержит searchValue, то мы оставляем
-      // это в массиве. Иначе удаляем
-      return true
-    }
-    return false
-  }).map((object) => <PizzaBlock key={object.id} {...object} />)
+  const objectMap = items.map((object) => <PizzaBlock key={object.id} {...object} />)
   
   return (
     <div className="container">
