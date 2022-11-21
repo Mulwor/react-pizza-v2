@@ -2,30 +2,29 @@ import React from 'react';
 import './App.css';
 import './scss/app.scss';
 import { Header } from './Components/Header';
-import Home from './Pages/Home'
+import Home from './Pages/Home';
 import NotFound from './Pages/NotFound';
-import {Routes, Route} from 'react-router-dom';
-import Cart from './Pages/Cart'
+import { Routes, Route } from 'react-router-dom';
+import Cart from './Pages/Cart';
 
+export const SearchContext = React.createContext();
 
 function App() {
-  const [searchValue, setSearchValue] = React.useState('')
+  const [searchValue, setSearchValue] = React.useState('');
 
   return (
     <div className="wrapper">
-      <Header searchValue={searchValue} setSearchValue={setSearchValue}/>
+      <SearchContext.Provider value={{searchValue, setSearchValue}}>
+        <Header />
 
-      <div className="content">
-        <div className="container">
+        <div className="content">
             <Routes>
-              {/* Главная страница */}
-              <Route path='/' element={ <Home searchValue={searchValue}/> } />
-              <Route path='/cart' element={ <Cart /> } />
-              {/* Если не один из роутев не подошел выведи последний */}
-              <Route path='*' element={ <NotFound/> } />
+              <Route path="/" element={<Home />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
-      </div>
+      </SearchContext.Provider>
     </div>
   );
 }

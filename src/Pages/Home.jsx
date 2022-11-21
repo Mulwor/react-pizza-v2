@@ -5,8 +5,10 @@ import Skeleton from '../Components/PizzaBlock/Skeleton';
 import Categories from '../Components/Categories';
 import { Sort } from '../Components/Sort';
 import Pagination from '../Components/Pagination';
+import { SearchContext } from '../App';
 
-const Home = ( {searchValue} ) => {
+const Home = () => {
+  const {searchValue} = React.useContext(SearchContext)
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryID, setCategoryID] = React.useState(0);
@@ -17,20 +19,24 @@ const Home = ( {searchValue} ) => {
     const sortBy = sortType.sortProperty.replace('-', "");
     const order = sortType.sortProperty.includes('-') ? "asc" : "desc";
     const category = categoryID > 0 ? `category=${categoryID}` : '';
-    
-    fetch(`https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`,)
-      .then((res) => {
-        return res.json();
-      })
+    const search = searchValue > 0 ? `search=${searchValue}` : '';
+
+    fetch(`https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,)
+      .then((res) => res.json())
       .then((arr) => {
         setItems(arr); 
         setIsLoading(false); 
       });
     window.scrollTo(0, 0);
-  }, [categoryID, sortType, currentPage]);
+  }, [categoryID, sortType, searchValue, currentPage]);
 
   const fakePizza = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-  const objectMap = items.map((object) => <PizzaBlock key={object.id} {...object} />)
+  const objectMap = items.filter(obj => {
+    if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+      return true
+    }
+    return false
+  }).map((object) => <PizzaBlock key={object.id} {...object} />)
   
   return (
     <div className="container">
