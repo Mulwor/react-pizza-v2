@@ -6,6 +6,8 @@ import Home from './Pages/Home';
 import NotFound from './Pages/NotFound';
 import { Routes, Route } from 'react-router-dom';
 import Cart from './Pages/Cart';
+import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment } from './counterSlice'
 
 export const SearchContext = React.createContext();
 
