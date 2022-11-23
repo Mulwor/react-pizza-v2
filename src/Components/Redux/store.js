@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './slices/filterSlice'
+import filter from './slices/filterSlice'
 
+// configureStore - создает хранилища, а внутри уже сидят работники
 export const store = configureStore({
   reducer: {
-    counter: counterReducer
+    filter
   },
 })

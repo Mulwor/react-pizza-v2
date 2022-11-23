@@ -1,24 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: 0,
+  categoryID: 1,
+  sort: {
+    name: 'популярности', 
+    sortProperty: 'rating' 
+  }
 }
 
 export const filterSlice = createSlice({
-  name: 'filter',
-  initialState,
-  reducers: {
-    increment: (state) => {
-      state.value += 1
+  name: 'filters',
+  initialState,     // Начальное его состояние
+  reducers: {       // Экшены, которые будут отвечать за сохранения сортировки и филтрации
+    
+    // Когда функция вызовется она получит свое состояние (state) и действие (action)
+    setCategoryId(state, action) {
+      // значение хранится в payload
+      state.categoryID = action.payload
     },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    },
+
   },
 })
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
-export default counterSlice.reducer
+// Все методы будут хранится в actions. Так устроен редакс
+export const { setCategoryId } = filterSlice.actions
+
+// Указываем по умолчанию, что будем экспортировать редьюсер
+export default filterSlice.reducer;
