@@ -1,22 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   categoryID: 1,
   sort: {
-    name: 'популярности', 
-    sortProperty: 'rating' 
-  }
-}
+    name: 'популярности',
+    sortProperty: 'rating',
+  },
+};
 
 export const filterSlice = createSlice({
   name: 'filters',
-  initialState,    
-  reducers: {     
+  initialState,
+  reducers: {
     setCategoryId(state, action) {
-      state.categoryID = action.payload
+      state.categoryID = action.payload;
+    },
+    setSort(state, action) {
+      state.sort = action.payload;
     },
   },
-})
+});
 
-export const { setCategoryId } = filterSlice.actions
+export const { setCategoryId, setSort } = filterSlice.actions;
 export default filterSlice.reducer;
