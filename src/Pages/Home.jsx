@@ -6,17 +6,12 @@ import Categories from '../Components/Categories';
 import { Sort } from '../Components/Sort';
 import Pagination from '../Components/Pagination';
 import { SearchContext } from '../App';
-// useSelector - Позволяет извлекать данные из состояния хранилища Redux с 
-// помощью функции выбора.
 
-// useDispatch - хук, возвращает  функцию из хранилища Redux. 
+
 import { useSelector, useDispatch } from 'react-redux'
-// Запихнем потом в диспатч его чтобы работало
 import { setCategoryId } from '../Components/Redux/slices/filterSlice'
 
 const Home = () => {
-  // Дай нам функцию, которая будет менять наш стейт и мы "говорим", что хотим изменить
-  // категорию пиццы с помощью диспатча 
   const dispatch = useDispatch()
   const categoryID = useSelector(state => state.filter.categoryID);
   console.log(categoryID)
@@ -25,7 +20,6 @@ const Home = () => {
   const {searchValue} = React.useContext(SearchContext)
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  // const [categoryID, setCategoryID] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(0)
   const [sortType, setSortType] = React.useState({ name: 'популярности', sortProperty: 'rating' });
   
@@ -64,9 +58,8 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        
         {isLoading ? fakePizza : objectMap }
-        
+
       </div>
 
       <Pagination onChangePage = {(number) => setCurrentPage(number)}/>
