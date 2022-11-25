@@ -2,17 +2,39 @@ import React from "react";
 import { SearchContext } from "../../App";
 import style from "./Search.module.scss"
 
+import debounce from 'lodash.debounce'
+
 
 const Search = () => {
-    const { searchValue, setSearchValue } = React.useContext(SearchContext)
+    const {setSearchValue} = React.useContext(SearchContext)
+    const [value, setValue] = React.useState('')
     // Правильное обращение к дом-элементам
     const inputRefHook = React.useRef();
 
     const onClickClear = () => {
         setSearchValue('');
-        inputRefHook.current.focus()
-    }
+        setValue('');
+        inputRefHook.current.focus();
+    };
 
+    // loadesh - будет работать с инпутом элементом
+    // Если в течение определенного времени мы не напишем в инпут элемент что-то
+    // то он отбудет отправлять запрос на бекенд по источению секунд который мы ука-
+    // зали
+    const updateSearchValue = React.useCallback(
+        // Сохранил ссылку и больше его не меняем (отложенная функция выполняем каждую секунду)
+        debounce((str) => {
+            setSearchValue(str)
+        }, 250),
+        [],
+    );
+
+    const onChangeInput = (event) => {
+        setValue(event.target.value)
+        updateSearchValue(event.target.value)
+    };
+
+  
     return (
         <div className = {style.root}>
             <svg className={style.icon}
@@ -44,13 +66,13 @@ const Search = () => {
             </svg>
            
             <input ref = {inputRefHook}
-                   value = {searchValue}
-                   onChange={(event) => setSearchValue(event.target.value)}
+                   value = {value}
+                   onChange={onChangeInput}
                    className = {style.input} 
                    placeholder="Поиск ..." 
             /> 
             
-            { searchValue && (
+            { value && (
                 <svg 
                     onClick={onClickClear} 
                     class={style.clearIcon} 
