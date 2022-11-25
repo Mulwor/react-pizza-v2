@@ -8,7 +8,7 @@ import Pagination from '../Components/Pagination';
 import { SearchContext } from '../App';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { setCategoryId } from '../Components/Redux/slices/filterSlice'
+import { setCategoryId, setCurrentPage } from '../Components/Redux/slices/filterSlice'
 
 import axios from 'axios';
 
@@ -16,17 +16,21 @@ const Home = () => {
   const dispatch = useDispatch()
   const categoryID = useSelector(state => state.filter.categoryID);
   const sortType = useSelector((state) => state.filter.sort.sortProperty)
+  const currentPage = useSelector((state) => state.filter.setCurrentPage)
   // const { categoryID, sort } = useSelector(state => state.filter);
 
   const {searchValue} = React.useContext(SearchContext)
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(0)
 
   
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id))
   } 
+
+  const onChangePage = number => {
+    dispatch(setCurrentPage(number))
+  }
 
   React.useEffect(() => {
     const sortBy = sortType.replace('-', "");
@@ -62,7 +66,9 @@ const Home = () => {
 
       </div>
 
-      <Pagination onChangePage = {(number) => setCurrentPage(number)}/>
+      <Pagination 
+          currentPage = {currentPage}
+          onChangePage = {onChangePage}/>
     </div>
   );
 };
