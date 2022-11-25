@@ -13,11 +13,11 @@ import { setCategoryId, setCurrentPage } from '../Components/Redux/slices/filter
 import axios from 'axios';
 
 const Home = () => {
+  // debugger
   const dispatch = useDispatch()
   const categoryID = useSelector(state => state.filter.categoryID);
   const sortType = useSelector((state) => state.filter.sort.sortProperty)
-  const currentPage = useSelector((state) => state.filter.setCurrentPage)
-  // const { categoryID, sort } = useSelector(state => state.filter);
+  const currentPage = useSelector((state) => state.filter.currentPage)
 
   const {searchValue} = React.useContext(SearchContext)
   const [items, setItems] = React.useState([]);
@@ -28,7 +28,7 @@ const Home = () => {
     dispatch(setCategoryId(id))
   } 
 
-  const onChangePage = number => {
+  const onChangePage = (number) => {
     dispatch(setCurrentPage(number))
   }
 
@@ -66,9 +66,7 @@ const Home = () => {
 
       </div>
 
-      <Pagination 
-          currentPage = {currentPage}
-          onChangePage = {onChangePage}/>
+      <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
     </div>
   );
 };
