@@ -8,7 +8,6 @@ import debounce from 'lodash.debounce'
 const Search = () => {
     const {setSearchValue} = React.useContext(SearchContext)
     const [value, setValue] = React.useState('')
-    // Правильное обращение к дом-элементам
     const inputRefHook = React.useRef();
 
     const onClickClear = () => {
@@ -17,12 +16,7 @@ const Search = () => {
         inputRefHook.current.focus();
     };
 
-    // loadesh - будет работать с инпутом элементом
-    // Если в течение определенного времени мы не напишем в инпут элемент что-то
-    // то он отбудет отправлять запрос на бекенд по источению секунд который мы ука-
-    // зали
     const updateSearchValue = React.useCallback(
-        // Сохранил ссылку и больше его не меняем (отложенная функция выполняем каждую секунду)
         debounce((str) => {
             setSearchValue(str)
         }, 250),
