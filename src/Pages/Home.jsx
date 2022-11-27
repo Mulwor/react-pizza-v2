@@ -12,9 +12,17 @@ import { setCategoryId, setCurrentPage } from '../Components/Redux/slices/filter
 
 import axios from 'axios';
 
+// Урок 15
+import qs from 'qs'
+import { useNavigate } from 'react-router-dom';
+
 const Home = () => {
   // debugger
   const dispatch = useDispatch()
+  const navigate = useNavigate();
+
+  const isMounted = React.useRef(false);
+
   const categoryID = useSelector(state => state.filter.categoryID);
   const sortType = useSelector((state) => state.filter.sort.sortProperty)
   const currentPage = useSelector((state) => state.filter.currentPage)
@@ -45,6 +53,15 @@ const Home = () => {
          })
     window.scrollTo(0, 0);
   }, [categoryID, sortType, searchValue, currentPage]);
+
+  React.useEffect(()=>{
+      const queryString = qs.stringify({
+        sortProperty : sortType,
+        categoryID,
+        currentPage,
+    })
+    navigate(`?${queryString}`)
+  }, [categoryID, sortType, currentPage])
 
   const fakePizza = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
   const objectMap = items.filter(obj => {
