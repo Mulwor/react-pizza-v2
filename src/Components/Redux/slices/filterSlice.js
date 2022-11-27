@@ -22,8 +22,15 @@ export const filterSlice = createSlice({
     setCurrentPage(state, action) {
       state.currentPage = action.payload
     },
+    setFilter(state, action) {
+      // Когда к тебе придет значение ты должен вшить то что есть из 
+      // пайлоада
+      state.currentPage = Number(action.payload.currentPage);
+      state.sort = action.payload.sort;
+      state.categoryID = Number(action.payload.categoryID);
+    },
   },
 });
 
-export const { setCategoryId, setSort, setCurrentPage } = filterSlice.actions;
+export const { setCategoryId, setSort, setCurrentPage, setFilter } = filterSlice.actions;
 export default filterSlice.reducer;
