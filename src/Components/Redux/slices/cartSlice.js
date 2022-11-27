@@ -11,18 +11,11 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    /* addItem(state, action) {
-      state.items.push(action.payload)
-      state.totalPrice = state.items.reduce((sum, obj) => {
-        return obj.price + sum
-      }, 0)
-    }, */
-
     addItem(state, action) {
     // Найти мне этот объект в массиве
-      const findItem = state.items.find(obj => obj.id === action.payload)
+      const findItem = state.items.find((obj) => obj.id === action.payload.id)
     // Если он есть, увеличь его на ++, на 1
-      if (findItem == true) {
+      if (findItem) {
         findItem.count++;
       } else {
     // Если он не нашелся, то мы добавляем новый объект
