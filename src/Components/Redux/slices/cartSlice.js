@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     // Общая сумма
     totalPrice: 0,
+    price: 0,
     // Товары
     items: []
 };
@@ -13,6 +14,9 @@ export const cartSlice = createSlice({
   reducers: {
     addItem(state, action) {
       state.items.push(action.payload)
+      state.totalPrice = state.items.reduce((sum, obj) => {
+        return obj.price + sum
+      }, 0)
     },
     removeItem(state, action) {
       state.items = state.items.filter((obj) => obj.id !== action.payload)
