@@ -13,7 +13,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types, rating }) {
   const typeNames = ['тонкое', 'традиционное'];
 
   const onClickAdd = () => {
-    const items = { id, title, price, imageUrl, type: typeNames[activeType], size: activeSize };
+    const items = { id, title, price, imageUrl, type: typeNames[activeType], size: sizes[activeSize] };
     dispatch(addItem(items));
   };
 
