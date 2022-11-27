@@ -37,19 +37,23 @@ const Home = () => {
     dispatch(setCurrentPage(number))
   }
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
       const sortBy = sortType.replace('-', "");
       const order = sortType.includes('-') ? "asc" : "desc";
       const category = categoryID > 0 ? `category=${categoryID}` : '';
       const search = searchValue > 0 ? `search=${searchValue}` : '';
       
-      axios.get(`https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+      await axios.get(`https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
           .then((response) => {
+          // .then(async (response) => {
               setItems(response.data); 
               setIsLoading(false); 
-          }
-      )
-  }
+              // console.log(1)
+          })
+        // console.log(2)
+      }
+
+      
 
   React.useEffect(()=>{
     if (isMounted.current) {
