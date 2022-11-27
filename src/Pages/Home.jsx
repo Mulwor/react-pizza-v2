@@ -49,9 +49,15 @@ const Home = () => {
           .then((response) => {
               setItems(response.data); 
               setIsLoading(false); 
-          })
+          }
+      )
   }
 
+  // 2. Если при первом рендере (а его нет, так как isMounted = false),
+  // тогда не надо вшивать в адресную строчку параметры. То есть не нужно
+  // при первом же рендера вшивать в параметры ссылки какие-то значения, это
+  // нужно делать после рендера. => Если изменили параметры и был первый рендер,
+  // то юзЭфеект работает
   React.useEffect(()=>{
     if (isMounted.current) {
       const queryString = qs.stringify({
@@ -65,10 +71,14 @@ const Home = () => {
   }, [categoryID, sortType, currentPage])
 
    
-  // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
+  // 1. Данный юзэффект служит для того, что если у нас что-то поменялось
+  // в параметрах и если они при первом рендере были получены из адресной
+  // строчки, то тогда мы будем вшивать в фильтр (редакс) - эти параметры,
+  // в виде объекта => сверяет с юрл параметрам и сохраняет в редаксе.
    React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
+      // Возьмем реальный sort, который у нас есть и перадим в редакс
       const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
 
       dispatch(
@@ -78,16 +88,13 @@ const Home = () => {
     }
   }, []);
 
- // Если был первый рендер, то запрашиваем пиццы
+ // 3. Если был первый рендер, то мы запрашиваем все наши пиццы
   React.useEffect(() => {
     window.scrollTo(0, 0);
-
     if (!isSearch.current) {
       fetchPizzas();
     }
-
     isSearch.current = false;
-
   }, [categoryID, sortType, searchValue, currentPage])
 
 
