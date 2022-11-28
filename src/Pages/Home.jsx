@@ -43,21 +43,20 @@ const Home = () => {
     const category = categoryID > 0 ? `category=${categoryID}` : '';
     const search = searchValue > 0 ? `search=${searchValue}` : '';
 
-    //await axios.get(`https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
-    // .then((response) => {
-    // .then(async (response) => {
-    // setItems(response.data);
-    // setIsLoading(Sfalse);
-    // console.log(1)
-    // })
-    // console.log(2)
-    // }
+    try {
+      const response = await axios.get(
+        `https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+      );
+      setItems(response.data);
+      console.log("Успешно")
+    } catch (error) {  
+      console.log('Ошибка', error)
+    } finally {
+      setIsLoading(false);
+      console.log("Выполнись в любом случае если есть или нет ошибки не важно")
+    }
 
-    const response = await axios.get(
-      `https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-    );
-    setItems(response.data);
-    setIsLoading(false);
+    window.scrollTo(0, 0)
   };
 
   React.useEffect(() => {
