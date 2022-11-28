@@ -38,19 +38,14 @@ const Home = () => {
   };
 
   const getPizzas = async () => {
+    debugger
     const sortBy = sortType.replace('-', '');
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryID > 0 ? `category=${categoryID}` : '';
     const search = searchValue > 0 ? `search=${searchValue}` : '';
 
     dispatch(
-      fetchPizzas({
-        sortBy,
-        order,
-        category,
-        search,
-        currentPage,
-      }),
+      fetchPizzas( { sortBy, order, category, search, currentPage} ),
     );
     window.scrollTo(0, 0);
   };
@@ -80,7 +75,7 @@ const Home = () => {
 
   React.useEffect(() => {
     getPizzas();
-  }, []);
+  }, [categoryID, sortType, searchValue, currentPage]);
 
   const fakePizza = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
   const objectMap = items
@@ -99,7 +94,15 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{status === 'Loading' ? fakePizza : objectMap}</div>
+
+      { status === 'error' ? (
+        <div className="content__error-info">
+          <h2>А пицц-то нет :-( </h2>
+          <p>Мы все сами съели и тебе ничего не оставили</p>
+        </div>
+      ) : (
+        <div className="content__items">{status === 'Loading' ? fakePizza : objectMap}</div>
+      )}
 
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
