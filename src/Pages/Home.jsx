@@ -15,6 +15,8 @@ import axios from 'axios';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
+import { setItems} from '../Components/Redux/slices/pizzaSlice';
+
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,8 +28,9 @@ const Home = () => {
   const currentPage = useSelector((state) => state.filter.currentPage);
 
   const { searchValue } = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+
+  const items = useSelector((state) => state.pizza.items)
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -44,10 +47,11 @@ const Home = () => {
     const search = searchValue > 0 ? `search=${searchValue}` : '';
 
     try {
-      const response = await axios.get(
+      const { data } = await axios.get(
         `https://634812fbdb76843976b9b35d.mockapi.io/Collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
       );
-      setItems(response.data);
+      // setItems(response.data);
+      dispatch(setItems(data))
       console.log("Успешно")
     } catch (error) {  
       console.log('Ошибка', error)
