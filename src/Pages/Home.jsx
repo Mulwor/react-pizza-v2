@@ -26,9 +26,8 @@ const Home = () => {
   const currentPage = useSelector((state) => state.filter.currentPage);
 
   const { searchValue } = React.useContext(SearchContext);
-  const [isLoading] = React.useState(true);
 
-  const {items, status} = useSelector((state) => state.pizza);
+  const { items, status } = useSelector((state) => state.pizza);
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -44,20 +43,15 @@ const Home = () => {
     const category = categoryID > 0 ? `category=${categoryID}` : '';
     const search = searchValue > 0 ? `search=${searchValue}` : '';
 
-     // try {
-      dispatch(
-        fetchPizzas({
-          sortBy, 
-          order,
-          category, 
-          search,
-          currentPage
-        }),
-      );
-      // console.log('Успешно');
-      // } catch (error) {
-      // console.log('Ошибка', error);
-      // }
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      }),
+    );
     window.scrollTo(0, 0);
   };
 
@@ -85,8 +79,8 @@ const Home = () => {
   }, []);
 
   React.useEffect(() => {
-      getPizzas();
-  }, [categoryID, sortType, searchValue, currentPage]);
+    getPizzas();
+  }, []);
 
   const fakePizza = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
   const objectMap = items
@@ -105,7 +99,7 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{status === "Loading" ? fakePizza : objectMap}</div>
+      <div className="content__items">{status === 'Loading' ? fakePizza : objectMap}</div>
 
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
