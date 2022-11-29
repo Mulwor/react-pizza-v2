@@ -78,7 +78,10 @@ body {
         overflow: au;
 
         ul {
-          width: 785px;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          
         }
       }
       .sort {
