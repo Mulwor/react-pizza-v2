@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from '../../Components/Redux/slices/cartSlice';
+import { addItem, selectCartItemById } from '../../Components/Redux/slices/cartSlice';
 
 function PizzaBlock({ id, title, price, imageUrl, sizes, types, rating }) {
   const dispatch = useDispatch();
