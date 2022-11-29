@@ -5,10 +5,9 @@ import Skeleton from '../Components/PizzaBlock/Skeleton';
 import Categories from '../Components/Categories';
 import { list, Sort } from '../Components/Sort';
 import Pagination from '../Components/Pagination';
-import { SearchContext } from '../App';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectorCategoryId, selectorCurrentPage, selectorSortType, setCategoryId, setCurrentPage, setFilter } from '../Components/Redux/slices/filterSlice';
+import { selectorCategoryId, selectorCurrentPage, selectorSearchValue, selectorSortType, setCategoryId, setCurrentPage, setFilter } from '../Components/Redux/slices/filterSlice';
 
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
@@ -24,8 +23,7 @@ const Home = () => {
   const categoryID = useSelector(selectorCategoryId);
   const sortType = useSelector(selectorSortType);
   const currentPage = useSelector(selectorCurrentPage);
-
-  const { searchValue } = React.useContext(SearchContext);
+  const searchValue = useSelector(selectorSearchValue)
 
   const { items, status } = useSelector(selectPizzaData);
 
@@ -38,7 +36,7 @@ const Home = () => {
   };
 
   const getPizzas = async () => {
-    debugger
+    // debugger
     const sortBy = sortType.replace('-', '');
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryID > 0 ? `category=${categoryID}` : '';
@@ -94,16 +92,15 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-
-      { status === 'error' ? (
-        <div className="content__error-info">
-          <h2>А пицц-то нет :-( </h2>
-          <p>Мы все сами съели и тебе ничего не оставили</p>
-        </div>
-      ) : (
-        <div className="content__items">{status === 'Loading' ? fakePizza : objectMap}</div>
-      )}
-
+        {status === 'error' ? (
+          <div className="content__error-info">
+            <h2>А пицц-то нет </h2>
+            <p>Мы все сами съели и тебе ничего не оставили</p>
+          </div>
+        ) : (
+          <div className="content__items">{status === 'Loading' ? fakePizza : objectMap}</div>
+        )
+        }
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
