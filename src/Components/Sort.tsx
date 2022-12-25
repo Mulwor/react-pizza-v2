@@ -1,9 +1,13 @@
 import React from 'react';
-
 import { useSelector, useDispatch } from 'react-redux'
-import { selectSort, setSort } from '../Components/Redux/slices/filterSlice'
+import { selectSort, setSort } from './Redux/slices/filterSlice'
 
-export const list = [
+type listItem = {
+  name: string,
+  sortProperty: string;
+};
+
+export const list: listItem[] = [
   {name: "популярности (DESC)", sortProperty: 'rating'},
   {name: "популярности (ASC)", sortProperty: '-rating'},
   {name: "цене (DESC)", sortProperty: "price"},
@@ -17,11 +21,11 @@ export function Sort() {
   const sort = useSelector(selectSort)
   
   // 1. По клику в другой области попапп юзаем функционал закрытия
-  const sortRef = React.useRef()
+  const sortRef = React.useRef<HTMLDivElement>(null)
 
   const [open, setOpen] = React.useState(false);
 
-  const onClickListAfterClose = (obj) => {
+  const onClickListAfterClose = (obj: listItem) => {
     dispatch(setSort(obj))
     setOpen(false);
   };
@@ -29,7 +33,7 @@ export function Sort() {
   // 2. Реализуем логику
   React.useEffect(() => {
     // console.log("sort mount")
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (!event.path.includes(sortRef.current)) {
         setOpen(false);
         // console.log('sort unmount')
